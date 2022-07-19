@@ -1,0 +1,182 @@
+//PURPOSE: query the blockchain for blocks and info of overall chain
+//NOTE:     uncomment whichever line you want and run the app and see the output.
+
+//EDIT: new way to specify transaction on ethereumjs-tx
+const Tx = require('ethereumjs-tx').Transaction
+const Web3 = require('web3')
+const web3 = new Web3('https://mainnet.infura.io/v3/8b31aa8a9e104bb99f1464915c82ab67')
+
+//web3.eth.getBlockNumber().then(console.log)
+
+//web3.eth.getBlock('latest').then(console.log)
+
+//will give us count of how many transactions in a block
+//web3.eth.getBlockTransactionCount('latest').then(console.log)
+
+//will give us the n'th transaction from a specific block
+//web3.eth.getTransactionFromBlock('latest', 2).then(console.log)
+
+////specify by latest keyword
+//web3.eth.getBlock('latest').then((block)=>{
+//    console.log('--BY LATEST',{
+//        blockHash: block.hash,
+//        blockNumber: block.number,   
+//    })
+//})
+//
+////specify by block number
+//web3.eth.getBlock(5855085).then((block)=>{
+//    console.log('--BY BLOCK NUMBER',{
+//        blockHash: block.hash,
+//        blockNumber: block.number,   
+//    })
+//})
+//
+////specify by block hash
+//web3.eth.getBlock('0xa1f6e9af707d76ac8ecf557556e301be2fe40d93a06c51488d046a4b7eddcb3f').then((block)=>{
+//    console.log('--BY BLOCK HASH',{
+//        blockHash: block.hash,
+//        blockNumber: block.number,   
+//    })
+//})
+//
+////for last x blocks...
+//web3.eth.getBlockNumber().then((latest) =>{
+//    for (let i = 0; i < 10; i ++){
+//        web3.eth.getBlock(latest - i).then((block)=>{
+//            console.log('--LAST 10 BLOCKS',{
+//                blockHash: block.hash,
+//                blockNumber: block.number,   
+//            })
+//        })
+//    }
+//})
+
+
+//This is what prints when we console.log a block... ALL these things we can query with web3.
+{//{
+//  baseFeePerGas: 25120138666,
+//  difficulty: '11527663560081004',
+//  extraData: '0xe4b883e5bda9e7a59ee4bb99e9b1bc4a2321',
+//  gasLimit: 30000000,
+//  gasUsed: 13273150,
+//  hash: '0xcaac0979327084667cf645d1be891616c70cf0f7e04ddeac11bed5bbe21e2c11',
+//  logsBloom: '0x5828c2269a587ad27b4a048abc1cdfbd3421070b072c437a0051f1ec542ccb15031409c5c64a0d0173f03e24304853306239e6262f02ba3830c318a183b2e88d0a4021e041cb042afc8b2319d220ffa114a6d549c44411847ad0a5f1c22cbd96bb9c0d0e675a4ea21b11398c30ea0e6166a64f09809814e4c22c0c9b40081c2ad623854c160a1a65104f2448e267c46e86212c5103124f8cfa69e1e56a10ab7e8b35555d580e7710ac91c4e7cd8407a62a8cba18300208630da39f0f027c0a074d09766f69b62ab30607309a80abe29624a7f2d882a6963b6b2a2d26200c3f2803f435bd080220411044c0b003144a94ade54b0829481a5b835b4582249139f6',
+//  miner: '0x829BD824B016326A401d083B33D092293333A830',
+//  mixHash: '0x22b5f5b2f4c36d815431492800739ff333657e0907779315350bf46d0f113353',
+//  nonce: '0xe2304d6bce8597bc',
+//  number: 15169258,
+//  parentHash: '0x038ef57fc93458c0eec3f794ec8df9e3bd8762fd8b5a8f96d112c9166b3f93aa',
+//  receiptsRoot: '0x8e656ad9611eb34006764dfdae30ea40a06ed7b5b9754f92ade73b9ee0237528',
+//  sha3Uncles: '0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347',
+//  size: 59987,
+//  stateRoot: '0xc510cc6615250d5f198a9afae176035b8e0d3b4a9bc599b56f706e6587ce53eb',
+//  timestamp: 1658183055,
+//  totalDifficulty: '54314754196546736577883',
+//  transactions: [
+//    '0x55b74a1ebc027ac4c473ce18c7ab9ebfc2bb825db4558c2039073b1d6e06549a',
+//    '0x66540ad083d14a5d9e4e666d7493251ae3cea207a5914374ba46a4875fb6bcff',
+//    '0x69dd239de7f3a7b49c1e88016e5208f331559400f31df2f00157bdd757ebe825',
+//    '0x3f204ff6b8b30546a31f9cd817212e6c230e3d18efb09431a8f318fb5d9fb62c',
+//    '0x61eaf796193c561ffdc454517f3e471ecd77bf935d567d23e66d4baa52f81246',
+//    '0xe72b0cc2b269306075f264ae22f686da2d854b66120e8084c67e1636c9e17e6c',
+//    '0x6124f283ba7ebc2110cf3fe776773263019f578c58f4486e61d7d094ab5bcdd9',
+//    '0xe1778939d0a32605dfb6d86f0c3a2a25530095b563322196b840e4a766e1c195',
+//    '0x9d5a6729ea5747ab04ca9bb9de119c3e6c1723bf07f2f777dc8661b0c0167920',
+//    '0x343b03a8c518d003bcf49f82dab593bbd3ee25a5521f107a6ed2c2eaa279a72c',
+//    '0x90da46f3017e0f606e63b893a4e7ebb2292135564b0620c9eaa50082304cf395',
+//    '0x8007b2ced32772803ce7399ece5e2ceea09d2d993cda0f1e5458fca073d64e97',
+//    '0xdaf05cd845cbaa4d370762ed1adb2c113018dd4a4d3f8c66b874aaaf5f18181c',
+//    '0x97ad930c565b5610be42e2ab0fe8fcd75ce73a3e8bc927e9aa46dd62f2714f3e',
+//    '0xc89e65f82c79688253d3fd5e38b6c68a6330be6872e4d344254c1136bbfda0fa',
+//    '0x2faf1e0b56ea4159cb5aad784e4486fc5e20127499743b43ea502fcfb601c422',
+//    '0x60771f5b32bb3d281d044b419095037cb9d6c2d693316e58c9da855ce3b7745a',
+//    '0x270c04d1f19678b030a35affb61bf48dd0aa93cf4e1ac48c64dd568b7990cced',
+//    '0xca51c88813c6bdb9ef23388ea7c8e4e9ca6c7961614c9039cc3b787b38a3bbc4',
+//    '0xfba4e66e8223af91ed0fa37cf081349af871a1e9026818a37232b106dceb5fa9',
+//    '0x4f915fb795444146bdf5caae474a4e6f85880113ab1d29022d1f6a3bc750f83d',
+//    '0x183b452fb7b10ac1157f70e8cefb6d7b25fe6191ea085b09be9ddbd857e53a2d',
+//    '0x08ec4bf073521db00100ddfca6fda9c332d162b1c6fcb86e11057c01177e3125',
+//    '0x52a03bc0539ffc1480caf5c5c6006501d6683120a75ab4b8358cc874403c68f0',
+//    '0x8ca3d1b5ca744d7f968e07f97d05e4985a010cb7f52b2e65a1c8666e6fabe87a',
+//    '0x17b09fd1215e8ca41bfad9c60e3e12844eabb4d774e12d2497722eed2c08601f',
+//    '0x4f87d7578aa76a4c368fbb39263b6ce4f4059a1a7690422421f0a24910ae09cb',
+//    '0xf8b6661d86ae5bba4a26b2a8f234fa7aa9a253d09138a88a070a70fc1d4ecbf0',
+//    '0xa1b18128517000b0697fb67cf304ed44ead38a102b29db291f66bcd8d929ffe4',
+//    '0xcd50276eb42c8e7b04391073d9201d7f6e083f77aac5c12dc59abf43531e39f5',
+//    '0xc2c2e63cbdc8c0ce7652933322af5058f4fd071d16df0bbde9924f40a2a00622',
+//    '0x7f3410cb3c45eabee6d09df00ea1b2dfdcf822d18815bc6cbc6535aebda566e1',
+//    '0x0b450911ab9a870cac7fb67963c3f89e0d3fc9cc1419f55e842ef25c140e87f6',
+//    '0x28f1785d835214d21e205285afeb9fb00dc275c0dc1bb2e8640740aff717962e',
+//    '0x6e8758ac98975efcb5309b54a48c535f55e97fc9adce8e7be609d0e770d39f26',
+//    '0x105e8f7581dd54e5761fe8f47f937d67a96484e1d648525d3d95e5921d79414a',
+//    '0xafcc0dde262edd0f59ad5133a190be0335bc3cb684bd9c6d4dfc87766f5aa890',
+//    '0x231436cad70c9d270c4089f12fd5115ec14996fffcf84b1eb9a8c3f808f2d572',
+//    '0xab487cd54541c6cf55cb4f5e8c81fc68ed33f01a9f800b7a1809a7f01fe19b52',
+//    '0x25592d4d32c53ab49b4c27191d7132c6d05ac13df8883293d5b6ded507a66548',
+//    '0x4ca7f0fb4a9b7d209d5d433401de520b9ff38e1477e294473e5931a089f5a398',
+//    '0x15b7bd33d153b27ae5c5a2cd1222849f02c7e302bd17c9aa90c2b2d2d695f56b',
+//    '0x0c401896233fa5783cbcf28d888a4741d873008db57fc27af436b8f50660d579',
+//    '0x205a5a387c6b419baf68f25bcf261cdbb906da2d94abcb5234412a3180741c17',
+//    '0x8eb8aa2cfa324aed6611fdcbb7007f861574e0f90b374dce6d9e4a8cc622e54a',
+//    '0x17ea3911df07052a5e0fe7a92720586b033ff7d3b71bdbc01514b9dcad8469f3',
+//    '0x99890271a2f98b8e7bf632d9b910206288e65b35c1ac8dd5b77f0a187496cde0',
+//    '0xf1507b8b2708dd38654c3194067d1b0d822ddbb38ba452e2010ddb8d8df67af1',
+//    '0x932f3b129fb12d185034206f80f905f322a081b85abab985079b992505f7356d',
+//    '0x8d88635570caaa7b5f9f799bc316a108ac38e88046bfb039f9bfbebcc3097bf3',
+//    '0xb217969adf13c4f4bdff9d6a76c4df474ff24b68c1cb8808a94bcc61dc02504b',
+//    '0x9731c4ec94b808e181d50e8669e2316f2b8b91bca875a7b19de8fed45d3847f3',
+//    '0x9bcfee4142967a52440c2811e15b3125a9fb38d538a1f16f059bbf2bb6b453e5',
+//    '0x0c12cd311d462752a774566f760472992435beee991a8c4c331ca939ff11d745',
+//    '0x94a9d9eb41dbc389fc6636625fc866777652777d99569706886ec11a483e4f6a',
+//    '0xc8bc4868d4be523357c694c72d15c5f2412533c02b76464e9e1eb7a39657ab79',
+//    '0xd5fcd2a7de5e9b639e490d6f76634efe0f80de4736dc774c4b8f46cfcfe2d408',
+//    '0x80b300a12822e20ffb6efc7d1258a89ca00200ea9ea635366986969811773f45',
+//    '0x0bc72fa37d5b3e3d15c36b199951ee33bf781d36b00e217f86c9e0d128876c03',
+//    '0xdff847a7b8bfa0f0ccc076dc71a252fe1bf74de9c78789b4b5a9e80ff798958d',
+//    '0x5d47bb5de5c51e89c450399dbdbd8d6764e17ff5a9aceaa5c10f7aabd3e39468',
+//    '0xf671a9e16dec294b2727d14918545c16bf542d3dfda869caf4cec0ce258cfb6d',
+//    '0x162755e5a4413121967ab7ff4eb9ae28e788efd496f82f32200d16f6e33f74af',
+//    '0xe19d58115c6a544d1d9e057391258d9491b0eb1733fd1f7b90c0a34c9f335346',
+//    '0xda22ad88121de21c4f909a71f3eeeb779d4a695ba5b80d0d9a6f9b1a790dcf00',
+//    '0x8c06965b89eb9f1b797cb37a413764491cb38c0b0847afb7b0a6f1bcab8d87c1',
+//    '0x667b29e3cdd99781ff7c72ac1986a0ee3fbc5b1f4e0e95ee92a7765a6b300cc4',
+//    '0x8c048f40256d33f09d6b003a4f181693d4e51c64e4fc75003e319beb7c90079d',
+//    '0xba05c9a4202b7a6b544f12c9dcc6c65b3450afce95d0d1014535b1719e4d27ca',
+//    '0x7dbb1158b5104bf0296776d120515e17e1c3383c9f1535869bd0b64a5903dd1f',
+//    '0x5533ec524f80f7433908428f12459b27aeb7a8b7b043f3d3342c0ee03ce42db8',
+//    '0x112a1206641e9c60869d100f52acfa853e047fe56f7db66c7f58f736a21944b6',
+//    '0x0476c7076c5c3e1e28a94930523670f6029fa63305f85c398f973c869e587951',
+//    '0x56c0a62b999adb434df019df525be10ffc02b411b160cfee51bbe0553a5e43f3',
+//    '0xc4cfbe31542f32f9a55514c23532479c4a9fd476d90d52d04c2881784fef6b27',
+//    '0x9271465175ffb5ed849bd8eb6cb30004cc2a3ad7d69e0a4b390ed8aaba1ca8dc',
+//    '0x82e8dfa0a0a722e6a34ce96b5452550af46b9c56345563c310daf971f43e4641',
+//    '0x7aa833a2252b038b0b408c4b9a5881927b2c7c3a011df4c752fd878fe205d9a6',
+//    '0x2a30bab5297f13e260097b7c9d00cfb2529365f78ca0f4f097f5f95a3cb72079',
+//    '0xbdb579322f9d61c41277fa002fba49d10703b718a16b8fa2f33d0b164531b486',
+//    '0xc211fd9dcf72a86199bd63939fb8755d465dad3fac6520ae7248f5d0aa5de208',
+//    '0x627578121e39d38c3e39b38f312c173067e0dcfa50f67876221d04ba07ae269e',
+//    '0xf5d7464f029503f6be6428f34cff488789b1f6f6dc7f0bed0810841b2c713cc2',
+//    '0xfbd4e5db7b4a39cf3b37d6f131d8290831998d65c7df7069bd4de251493a1d00',
+//    '0x9c95ade14459dbd9d61e3f721ff991a4617f796ec46c33ab182e034bf68b90c8',
+//    '0x37922b71c676e738fdc944e469e8cf8f8ea9dfbd7d629037b693a645b6870c0a',
+//    '0xf0e04c9e4e1ba877340a385998904290cd85b014b7bbf16ff165c057e1a2435f',
+//    '0x501a7a8aea034eb333b0e14a9961c4027ca362b5935f8463d2fa657db82aec17',
+//    '0xfc0f535cc6f1e015e77dceb52e7ac1866a5981ebe3e0fe1e880c44634f31c373',
+//    '0xeaa033bdee16aa45665e72ac40db7b5afb943372daa5e5d1842ed705ecd71062',
+//    '0xba1a1cf721f29cd36114a0fb008b0fb5e261572027ed3e36149a58dd97523f4b',
+//    '0xbb32eb213c08a424964ff04cb0bb778bec209c4073b5f0d3e96257e3654a10b1',
+//    '0xcde19b760f1432bd6726944467a8c356d5da9abec004984bbe0a3fead74aecfe',
+//    '0x103d53ec79b142f56bf9cc99c14880205047489fb3dc7a231fde4ba4c7f1211d',
+//    '0x1941edc0ca471d4ca82b2cf6f3e87e3629fcaabc461eb417ef42d6157e775ab5',
+//    '0xbeebd8011aab9bf4764f8067e9d339273fd97fdf28c172af0b1ad4a5366e954d',
+//    '0x226680f7ce04a8a8e74ffe9a713d22a236b784b1d5a7a8a27f9d00fada2bcdca',
+//    '0xb9030dca0bd25056c8b58a5a288272747a0bf8dc03b4b34039b6ebdd112df2f0',
+//    '0x4b997738a84229a12b98d1e61f03e67cf30a5963bfec2bc5ba4337a9a8a452ae',
+//    '0x53683936961e6f74d15f813aeccee30db56bd4d2a64d27c975306f1ce285444c',
+//    ... 62 more items
+//  ],
+//  transactionsRoot: '0x82a634ad6171977f820c54bf7ecde837244b02e444d4712a8f4760098e7448ef',
+//  uncles: []
+//}
+}
